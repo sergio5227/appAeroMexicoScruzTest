@@ -63,7 +63,7 @@ const InfoDetailFlight = (props:InfoDetailFlightProps) => {
               <Text style={InfoDetailFlightStyle.departureTitle}>
                 Departure
                 </Text>
-              <Text style={InfoDetailFlightStyle.departureText}>{item?.segment?.departureAirport} - {item?.boardingTerminal}</Text>
+              <Text style={InfoDetailFlightStyle.departureText}>{item?.segment?.departureAirport} -Terminal {item?.boardingTerminal}</Text>
             </View>
             <View style={InfoDetailFlightStyle.detailFirst}>
               <View style={InfoDetailFlightStyle.detailFirstContent}>

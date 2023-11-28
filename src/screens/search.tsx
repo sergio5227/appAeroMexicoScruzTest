@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import {
   Button,
-  SafeAreaView, Text
+  SafeAreaView, ScrollView, Text
 } from 'react-native';
 import {styles} from '../styles';
 import HeaderGeneral from '../components/header';
@@ -21,9 +21,11 @@ const Search = ({navigation}: any) => {
     <SafeAreaView style={styles.backGround}>
       <HeaderGeneral title='Track your flight' subTitle='Keep you informed in real time!' showBackBtn={false} origen='search'/>
       <BtnModeSearch action={setSearchType} searchType={searchType} />
-      {searchType ===  'flightNumber' ? <FlightNumber/> : <Destination/> }
-      <BtnSearch search={search}/>
-      <ChangeSearchTipeLegen searchType={searchType} changeTypeSearch={changeTypeSearch}/>
+      <ScrollView>
+        {searchType ===  'flightNumber' ? <FlightNumber/> : <Destination/> }
+        <BtnSearch search={search}/>
+        <ChangeSearchTipeLegen searchType={searchType} changeTypeSearch={changeTypeSearch}/>
+      </ScrollView>
     </SafeAreaView>
   );
 };

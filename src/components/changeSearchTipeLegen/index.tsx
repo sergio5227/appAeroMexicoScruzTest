@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
+import { changeSearchTipeLegenStyle } from '../../styles';
 
 interface ChangeSearchTipeLegenProps {
   searchType: 'flightNumber' | 'destination';
@@ -14,30 +15,15 @@ const ChangeSearchTipeLegen = (props: ChangeSearchTipeLegenProps) => {
     <View>
       <View style={{padding: 20}}>
         <Text
-          style={{
-            textAlign: 'center',
-            color: 'rgba(0, 0, 0, 0.5)',
-            fontWeight: '600',
-            lineHeight: 22,
-          }}>
+          style={changeSearchTipeLegenStyle.textFirst}>
           {searchType === 'flightNumber'
             ? 'Can’t find your flight number?'
             : 'Looking for a specific flight?'}{' '}
         </Text>
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+          style={changeSearchTipeLegenStyle.viewTry}>
           <Text
-            style={{
-              color: 'rgba(0, 0, 0, 0.5)',
-              fontSize: 16,
-              fontWeight: '400',
-              textAlign: 'center',
-              lineHeight: 22,
-            }}>
+            style={changeSearchTipeLegenStyle.textSecond}>
             Try searching by{' '}
           </Text>
           <TouchableOpacity
@@ -48,14 +34,7 @@ const ChangeSearchTipeLegen = (props: ChangeSearchTipeLegenProps) => {
             }>
             <View>
               <Text
-                style={{
-                  color: 'rgba(0, 0, 0, 0.5)',
-                  fontSize: 16,
-                  fontWeight: '400',
-                  textAlign: 'center',
-                  lineHeight: 22,
-                  textDecorationLine: 'underline',
-                }}>
+                style={changeSearchTipeLegenStyle.textThird}>
                 {searchType === 'flightNumber'
                   ? 'destination'
                   : 'flight number'}

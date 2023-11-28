@@ -1,5 +1,6 @@
 import React from 'react'
 import { Text, View } from 'react-native';
+import { InfoResultsStyle } from '../../styles';
 
 interface InfoResultsProps{
     origin:string
@@ -9,12 +10,12 @@ interface InfoResultsProps{
 const InfoResults = (props:InfoResultsProps) => {
     const {origin,result}=props
   return (
-    <View style={{flexDirection:'row', paddingHorizontal:20}}> 
+    <View style={InfoResultsStyle.content}> 
         <View style={{flex:1}}>
-          <Text style={{fontSize:14,fontWeight:'600', lineHeight:20, color:'black'}}>{origin}</Text>
+          <Text style={InfoResultsStyle.text1}>{origin}</Text>
         </View>
-        <View style={{flex:1, alignItems:'flex-end'}}>
-          <Text style={{fontSize:14,fontWeight:'400', lineHeight:20, textAlign:'right', color:'rgba(0, 0, 0, 0.5)'}}>{result} results</Text>
+        <View style={InfoResultsStyle.content1 }>
+          <Text style={InfoResultsStyle.text2}>{result} results</Text>
         </View>
       </View>
   )

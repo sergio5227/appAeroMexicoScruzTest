@@ -20,9 +20,9 @@ const NavigationApp = ()=> {
             headerShown: false,
         }}
     >
-      <Stack.Screen name="ScreenSearch" options={{ title:"" }} component={Search} />
-      <Stack.Screen name="ScreenResults" options={{ title:"" }} component={Results} />
-      <Stack.Screen name="ScreenDetail" options={{ title:"" }} component={Details} />
+      <Stack.Screen name="ScreenSearch" component={Search} />
+      <Stack.Screen name="ScreenResults" component={Results} />
+      <Stack.Screen name="ScreenDetail" component={Details} />
       
     </Stack.Navigator>
   );

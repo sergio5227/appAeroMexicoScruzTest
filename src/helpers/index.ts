@@ -24,7 +24,6 @@ export const geTimeFromDate = (date:Date):string=> {
 export const toHoursAndMinutes =(totalMinutes:number)=> {
     const minutes = totalMinutes % 60;
     const hours = Math.floor(totalMinutes / 60);
-  
     return `${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m`;
   }
 
@@ -32,6 +31,6 @@ export const toHoursAndMinutes =(totalMinutes:number)=> {
   export const formatDate = (date:string) => {
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const d = new Date(date);
-    return days[d.getDay()] + ", " +  monthNames[d.getMonth()] + " " +d.getDate()  ;
+    const toConvert = new Date(date);
+    return `${days[toConvert.getDay()]}, ${monthNames[toConvert.getMonth()]} ${toConvert.getDate()}`;
   }

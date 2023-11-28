@@ -1,8 +1,7 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {styles} from '../../styles';
-import {filterSearchStyle} from './style';
+import { filterSearchStyle } from '../../styles';
 
 const FlightNumber = () => {
   const action = () => {};

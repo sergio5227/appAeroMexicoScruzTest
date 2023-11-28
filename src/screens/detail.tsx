@@ -2,36 +2,32 @@ import React from 'react';
 import {
   ImageBackground,
   SafeAreaView,
-  Text,
-  TouchableOpacity,
+  ScrollView,
   View,
 } from 'react-native';
 import {styles} from '../styles';
 import BackBtnNavigation from '../components/btnNavigation/backBtnNavigation';
-import {FlightStatusCollection} from '../model/NumerodeVueloResponseTypes';
-import InfoFllightTime from '../components/infoFllightTime';
 import InfoDetailFlight from '../components/infoDetailFlight';
+import { FlightStatusCollection } from '../model/OrigenDestinoResponseTypes';
+import { useDetail } from './useDetail';
 
 const Details = ({route, navigation}: any) => {
-  const params = route.params;
-  const item:FlightStatusCollection = params?.item || ``;
-  const origin: 'flightNumber' | 'destination' = params?.origin || ``;
-  const backScreen = () => {
-    navigation.navigate('ScreenResults', {origen: origin});
-  };
+  const { backScreen,item } = useDetail(route, navigation);
   return (
-    <SafeAreaView style={{...styles.backGround, ...{}}}>
-      <View style={{flex: 0.5}}>
+    <SafeAreaView style={styles.backGround}>
+      <View style={{flex: 1}}>
         <ImageBackground
-          source={require('./fondo.png')}
+          source={require('../assets/fondo.png')}
           resizeMode="cover"
-          style={{flex: 1, position: 'relative', bottom: -15}}>
-          <View style={{padding: 20}}>
+          style={styles.imgBackgrund}>
+          <View style={styles.generalPadding}>
             <BackBtnNavigation accion={backScreen} />
           </View>
         </ImageBackground>
       </View>
-      <InfoDetailFlight item={item} />
+      <ScrollView style={{flex: 1}}>
+        <InfoDetailFlight item={item} />
+      </ScrollView>
     </SafeAreaView>
   );
 };

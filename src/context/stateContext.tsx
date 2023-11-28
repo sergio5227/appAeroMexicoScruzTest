@@ -1,42 +1,27 @@
-import React, { createContext,useState } from 'react'
-import { FlightStatusCollection } from '../model/NumerodeVueloResponseTypes'
+import React, { createContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setData } from '../store/state'
+import { FlightStatusCollection } from '../model/OrigenDestinoResponseTypes'
 
 export interface DataStateContext {
     state:FlightStatusCollection[]
     set:(data:FlightStatusCollection[])=>void
-    favs:FlightStatusCollection[]
-    setFavs:(data:FlightStatusCollection)=>void
-    removeFavs:(data:FlightStatusCollection[])=>void
 }
 
 export const DataStateContext = createContext({} as DataStateContext)
 
 export const StateContextProvider = ({children}:{children:JSX.Element}) => {
-
-    const [state,setState] = useState<FlightStatusCollection[]>([]);
-    const [favs,setFavs] = useState<FlightStatusCollection[]>([]);
+    const dispatch = useDispatch();
+    const { data } = useSelector((state: any) => state.data);
 
     const setStateApp = (data:FlightStatusCollection[])=> {
-        setState(data);
-    }
-
-    const setFav = (data:FlightStatusCollection)=> {
-        const fa = Object.assign([],favs);
-        fa.push(data);
-        setFavs(fa);
-    }
-
-    const removeFav = (data:FlightStatusCollection[])=> {
-        setFavs(data);
+        dispatch(setData(data.sort(function(a, b) { return a.id - b.id && Number(b?.favorite) - Number(a?.favorite)  })));
     }
 
   return (
     <DataStateContext.Provider value={{
-        state,
-        set:setStateApp,
-        favs,
-        setFavs:setFav,
-        removeFavs:removeFav
+        state:data,
+        set:setStateApp
     }}>
         {children}
     </DataStateContext.Provider>

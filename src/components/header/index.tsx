@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import BackBtnNavigation from '../btnNavigation/backBtnNavigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 interface HeaderGeneralProps {
@@ -68,8 +68,6 @@ const HeaderGeneral = (props: HeaderGeneralProps) => {
   
   const backScreen = () => {
     switch (origen) {
-      case 'search':
-        break;
       case 'results':
         props?.navigation && props?.navigation.navigate('ScreenSearch');
         break;
@@ -95,7 +93,13 @@ const HeaderGeneral = (props: HeaderGeneralProps) => {
         <View style={headerStyles.contentDetailInfo}>
             <Text style={headerStyles.headerSubTitle}>{props?.subTitle}</Text>
             <Text style={headerStyles.headerSubTitle}><Icon name="calendar" size={16} color="black" /></Text>
-            <Text style={headerStyles.headerSubTitleShow}>Change</Text>
+            <TouchableOpacity onPress={() => backScreen()}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}><Text style={headerStyles.headerSubTitleShow}>Change</Text>
+            </View></TouchableOpacity>
         </View>
       </View>) : null}
 

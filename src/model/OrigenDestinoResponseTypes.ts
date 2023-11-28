@@ -16,6 +16,8 @@ export interface FlightStatusCollection {
     outGate:                  OutGate;
     legType:                  LegType;
     totalFlightTimeInMinutes: number;
+    favorite?:                boolean;
+    id:                       number
 }
 
 export enum Gate {

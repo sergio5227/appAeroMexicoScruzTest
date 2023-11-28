@@ -12,23 +12,9 @@ const BtnSearch = (props: BtnSearchProps) => {
     <View style={styles.glbMargin}>
       <TouchableOpacity onPress={() => props?.search()}>
         <View
-          style={{
-            borderWidth: 1,
-            height: 50,
-            padding: 5,
-            marginHorizontal: 5,
-            backgroundColor: 'black',
-            borderRadius: 5,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+          style={styles.btnSearchContent}>
           <Text
-            style={{
-              color: 'white',
-              fontWeight: '600',
-              lineHeight: 22,
-              fontSize: 16,
-            }}>
+            style={styles.btnSearchText}>
             {'Search Flights'}
           </Text>
         </View>

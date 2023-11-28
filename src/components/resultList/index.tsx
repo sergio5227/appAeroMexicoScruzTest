@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
   FlatList,
@@ -9,14 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {FlightStatusCollection} from '../../model/NumerodeVueloResponseTypes';
-import {styles} from '../../styles';
+import {ResultListStyle, styles} from '../../styles';
 import {
   capitalizeFirstLetter,
-  geTimeFromDate,
-  toHoursAndMinutes,
 } from '../../helpers';
 import InfoFllightTime from '../infoFllightTime';
+import { FlightStatusCollection } from '../../model/OrigenDestinoResponseTypes';
 
 interface ResultListProps {
   data: FlightStatusCollection[];
@@ -24,7 +22,6 @@ interface ResultListProps {
   origin: 'flightNumber' | 'destination';
   setFavorite?: (item: FlightStatusCollection) => void;
   removeFavorite?: (item: FlightStatusCollection) => void;
-  favs?: boolean;
 }
 
 interface ItemProps {
@@ -33,7 +30,6 @@ interface ItemProps {
   onFavorite: (item: FlightStatusCollection) => void;
   onRemoveFavorite: (item: FlightStatusCollection) => void;
   origin: 'flightNumber' | 'destination';
-  favs?: boolean;
 }
 
 const Item = ({
@@ -42,13 +38,11 @@ const Item = ({
   onFavorite,
   onRemoveFavorite,
   origin,
-  favs,
 }: ItemProps) => {
-  const [isEnabled, setIsEnabled] = useState(false);
+  
 
-  const toggleSwitch = (item_: FlightStatusCollection) => {
-    setIsEnabled(previousState => !previousState);
-    if (favs) {
+  const toggleSwitch = (item_: FlightStatusCollection) => {  
+    if (item_?.favorite) {
       onRemoveFavorite(item_);
     } else {
       onFavorite(item_);
@@ -60,68 +54,29 @@ const Item = ({
       <View style={{flexDirection: 'row'}}>
         <View
           style={{
-            ...{
-              position: 'relative',
-              justifyContent: 'center',
-              top: 0,
-              height: 28,
-              width: 80,
-              borderTopRightRadius: 0,
-              borderTopLeftRadius: 10,
-              borderBottomRightRadius: 17,
-              borderBottomLeftRadius: 0,
-            },
+            ...ResultListStyle.contentStatus ,
             ...styles?.[item?.status],
           }}>
           <Text
-            style={{
-              color: 'white',
-              paddingLeft: 20,
-              fontSize: 11,
-              fontWeight: '600',
-              lineHeight: 20,
-            }}>
+            style={ResultListStyle.text1}>
             {capitalizeFirstLetter(item?.status)}
           </Text>
         </View>
         {origin === 'destination' ? (
           <View
-            style={{
-              flex: 1,
-              flexDirection: 'row-reverse',
-              position: 'relative',
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-              top: 0,
-              height: 28,
-            }}>
+            style={ResultListStyle.contentDestination }>
             <View
-              style={{
-                width: 60,
-                height: 28,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+              style={ResultListStyle.contentDestinationView }>
               <Switch
                 trackColor={{false: '#CCCCCC', true: 'black'}}
-                thumbColor={isEnabled ? 'white' : 'white'}
+                thumbColor={item?.favorite ? 'white' : 'white'}
                 ios_backgroundColor="black"
                 onValueChange={() => toggleSwitch(item)}
-                value={favs ? true : isEnabled}
+                value={item?.favorite}
               />
             </View>
             <Text
-              style={{
-                flex: 1,
-                color: 'black',
-                paddingLeft: 20,
-                textAlign: 'right',
-                position: 'relative',
-                bottom: 3,
-                fontSize: 11,
-                fontWeight: '600',
-                lineHeight: 18,
-              }}>
+              style={ResultListStyle.fav }>
               Favorite
             </Text>
           </View>
@@ -137,50 +92,25 @@ const Item = ({
 
 
       <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          top: 0,
-          justifyContent: 'center',
-          borderTopWidth: 1,
-          borderTopColor: 'background: rgba(0, 0, 0, 0.4)',
-          alignItems: 'center',
-        }}>
-        <View style={{height: 20, flex: 1}}>
+        style={ResultListStyle.contentOpetationCarrier }>
+          <View style={{flex: 1, flexDirection: 'row',height: 20}}>
           <Text
-            style={{
-              color: 'black',
-              paddingLeft: 20,
-              fontSize: 11,
-              fontWeight: '600',
-              lineHeight: 20,
-            }}>
-            AM 500
+            style={ResultListStyle.text2 }>
+            {item?.segment?.operatingCarrier}{' '}
+          </Text>
+          <Text style={ResultListStyle.text3 }>
+          {item?.segment?.operatingFlightCode}
           </Text>
         </View>
-
         <View style={{height: 20, flex: 1}}>
           <TouchableOpacity onPress={() => onNavigate(item)}>
             <View style={{flexDirection: 'row'}}>
               <Text
-                style={{
-                  flex: 1,
-                  color: 'black',
-                  fontSize: 11,
-                  fontWeight: '600',
-                  lineHeight: 20,
-                  textDecorationLine: 'underline',
-                  textAlign: 'right',
-                }}>
+                style={ResultListStyle.text4 }>
                 {'Details'}
               </Text>
               <Text
-                style={{
-                  paddingRight: 20,
-                  textAlign: 'left',
-                  position: 'relative',
-                  top: 3,
-                }}>
+                style={ResultListStyle.text5 }>
                 <Icon name="chevron-forward-outline" size={16} color="black" />
               </Text>
             </View>
@@ -192,16 +122,27 @@ const Item = ({
 };
 
 const ResultList = (props: ResultListProps) => {
+  
+  const flatlistRef:any = useRef<HTMLInputElement>();
+  
+  const scrollToIndex = () => {
+    flatlistRef?.current && flatlistRef.current.scrollToIndex({ animated: true, index: 0 })
+  }
+
   const renderItem = ({item}: {item: FlightStatusCollection}) => {
     return (
       <Item
         origin={props?.origin}
         item={item}
-        favs={props?.favs}
-        onRemoveFavorite={() =>
-          props?.removeFavorite && props?.removeFavorite(item)
-        }
-        onFavorite={() => props?.setFavorite && props?.setFavorite(item)}
+        
+        onRemoveFavorite={() =>{
+          props?.removeFavorite && props?.removeFavorite(item);
+          scrollToIndex();
+        }}
+        onFavorite={() => {
+          props?.setFavorite && props?.setFavorite(item);
+          scrollToIndex();
+        }}
         onNavigate={() =>
           props?.navigation.navigate('ScreenDetail', {
             item,
@@ -216,19 +157,10 @@ const ResultList = (props: ResultListProps) => {
     <SafeAreaView
       style={{
         flex: 1,
-        marginTop: !props?.favs ? StatusBar.currentHeight || 0 : 0,
+        marginTop: StatusBar.currentHeight || 0,
       }}>
       <FlatList
-              ListHeaderComponent={
-                <>
-                  
-                </>}
-                ListFooterComponent={
-                  <>
-                  
-                </>
-                }
-          
+        ref={flatlistRef}
         data={props?.data}
         renderItem={renderItem}
         keyExtractor={item => item?.id + ''}

@@ -1,28 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {btnModeSearchStyles} from './styles';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { btnModeSearchStyles } from '../../styles';
+import { useBtnModeSearch } from './useBtnModeSearch';
 
-interface BtnModeSearch {
+
+export interface BtnModeSearch {
   action: (value: 'flightNumber' | 'destination') => void;
   searchType: 'flightNumber' | 'destination';
 }
 
 export const BtnModeSearch = (props: BtnModeSearch) => {
-  const {searchType, action} = props;
-
-  const [active, setActive] = useState<'flightNumber' | 'destination'>(
-    'flightNumber',
-  );
-
-  const setType = (value: 'flightNumber' | 'destination') => {
-    setActive(value);
-    action(value);
-  };
-
-  useEffect(() => {
-    setActive(searchType);
-  }, [searchType]);
-
+  const { setType, active } = useBtnModeSearch(props);
   return (
     <View style={btnModeSearchStyles.btnModeSearchContainer}>
       <View style={btnModeSearchStyles.line}></View>
@@ -33,18 +21,18 @@ export const BtnModeSearch = (props: BtnModeSearch) => {
               style={
                 active === 'flightNumber'
                   ? {
-                      ...btnModeSearchStyles.botonBack,
-                      ...btnModeSearchStyles.btnActive,
-                    }
+                    ...btnModeSearchStyles.botonBack,
+                    ...btnModeSearchStyles.btnActive,
+                  }
                   : btnModeSearchStyles.botonBack
               }>
               <Text
                 style={
                   active === 'flightNumber'
                     ? {
-                        ...btnModeSearchStyles.botonTexto,
-                        ...btnModeSearchStyles.btnActive,
-                      }
+                      ...btnModeSearchStyles.botonTexto,
+                      ...btnModeSearchStyles.btnActive,
+                    }
                     : btnModeSearchStyles.botonTexto
                 }>
                 {'Flight Number'}
@@ -58,18 +46,18 @@ export const BtnModeSearch = (props: BtnModeSearch) => {
               style={
                 active === 'destination'
                   ? {
-                      ...btnModeSearchStyles.botonBack,
-                      ...btnModeSearchStyles.btnActive,
-                    }
+                    ...btnModeSearchStyles.botonBack,
+                    ...btnModeSearchStyles.btnActive,
+                  }
                   : btnModeSearchStyles.botonBack
               }>
               <Text
                 style={
                   active === 'destination'
                     ? {
-                        ...btnModeSearchStyles.botonTexto,
-                        ...btnModeSearchStyles.btnActive,
-                      }
+                      ...btnModeSearchStyles.botonTexto,
+                      ...btnModeSearchStyles.btnActive,
+                    }
                     : btnModeSearchStyles.botonTexto
                 }>
                 {'Destination'}

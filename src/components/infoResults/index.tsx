@@ -14,9 +14,9 @@ const InfoResults = (props:InfoResultsProps) => {
         <View style={{flex:1}}>
           <Text style={InfoResultsStyle.text1}>{origin}</Text>
         </View>
-        <View style={InfoResultsStyle.content1 }>
+        {result > 1 ?<View style={InfoResultsStyle.content1 }>
           <Text style={InfoResultsStyle.text2}>{result} results</Text>
-        </View>
+        </View> : null}
       </View>
   )
 }
